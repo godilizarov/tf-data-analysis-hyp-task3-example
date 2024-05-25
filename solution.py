@@ -1,11 +1,15 @@
-import pandas as pd
 import numpy as np
+import scipy.stats as stats
 
+chat_id = 419801345
 
-chat_id = 123456 # Ваш chat ID, не меняйте название переменной
+def solution(data: np.ndarray) -> bool:
+    threshold = 500
 
-def solution(...) -> bool: # Одна или две выборке на входе, заполняется исходя из условия
-    # Измените код этой функции
-    # Это будет вашим решением
-    # Не меняйте название функции и её аргументы
-    return ... # Ваш ответ, True или False
+    t_stat, p_value = stats.ttest_1samp(data, threshold)
+    
+    p_value_one_sided = p_value / 2
+    
+    reject_null = (p_value_one_sided < 0.02) and (np.mean(data) > threshold)
+    
+    return reject_null
